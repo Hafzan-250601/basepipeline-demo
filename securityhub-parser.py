@@ -9,6 +9,7 @@ sts = boto3.client('sts')
 # retrieve account id from STS GetCallerID
 getAccount = sts.get_caller_identity()
 awsAccount = str(getAccount['Account'])
+awsRegion = os.environ['AWS_REGION']
 
 # Function to read Trivy findings from a JSON file
 def read_trivy_findings(file_path):
