@@ -46,7 +46,7 @@ def convert_to_securityhub_format(trivy_findings, image_name):
 
 # Function to send findings to AWS Security Hub
 def send_findings_to_securityhub(findings):
-    client = boto3.client('securityhub', region_name='YOUR_REGION')
+    client = boto3.client('securityhub', region_name='ap-southeast-1')
     response = client.batch_import_findings(Findings=findings)
     if response['FailedCount'] > 0:
         print(f"Failed to import {response['FailedCount']} findings")
