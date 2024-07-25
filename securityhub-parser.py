@@ -27,7 +27,7 @@ sts = boto3.client('sts')
 getAccount = sts.get_caller_identity()
 awsAccount = str(getAccount['Account'])
 # retrieve env vars
-awsRegion = os.environ['AWS_REGION']
+awsRegion = ap-southeast-1
 containerName = devopsapps
 
 # open Trivy vuln report & parse out vuln info
