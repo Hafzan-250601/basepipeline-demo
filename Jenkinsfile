@@ -13,7 +13,7 @@ pipeline {
     }
     stage('Pass Finding to SecurityHub') {
       steps {
-        sh 'pip3 install boto3'
+        sh 'pip3 install boto3 --break-system-packages'
         sh 'python3 securityhub-parser.py'
       }
     }
