@@ -8,7 +8,7 @@ pipeline {
     }
     stage('Scan') {
       steps {
-        sh 'trivy -f json -o results.json --exit-code 0 --severity HIGH,MEDIUM,LOW --quiet --auto-refresh devopsapps'
+        sh 'trivy image -f json -o results.json --no-progress --exit-code 0 --severity HIGH,CRITICAL devopsapp'
       }
     }
     stage('Pass Finding to SecurityHub') {
