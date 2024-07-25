@@ -19,6 +19,10 @@ import boto3
 import datetime
 import os
 
+# retrieve account id from STS GetCallerID
+getAccount = sts.get_caller_identity()
+awsAccount = str(getAccount['Account'])
+
 # Define the region and container name
 awsRegion = 'ap-southeast-1'
 containerName = 'devopssapps'
