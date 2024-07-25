@@ -14,7 +14,6 @@ pipeline {
     stage('Upload Findings to SecurityHub') {
       steps {
         sh 'cat report.asff'
-        sh 'jq . report.asff'
       }
     }
   }
