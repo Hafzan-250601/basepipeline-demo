@@ -19,14 +19,9 @@ import boto3
 import datetime
 import os
 
-# Retrieve account id from STS GetCallerIdentity
-getAccount = sts.get_caller_identity()
-awsAccount = str(getAccount['Account'])
-
 # Define the region and container name
 awsRegion = 'ap-southeast-1'
 containerName = 'devopssapps'
-containerTag = 'latest'  # Assuming you have a tag, you can change it accordingly
 
 # Create SecurityHub and STS clients with the specified region
 securityhub = boto3.client('securityhub', region_name=awsRegion)
