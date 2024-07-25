@@ -9,7 +9,7 @@ pipeline {
     stage('Scan') {
       steps {
         sh 'trivy image -f json -o results.json --no-progress --exit-code 0 --severity HIGH,CRITICAL devopsapps'
-        sh 'locate results.json'
+        sh 'cat results.json'
       }
     }
   }
