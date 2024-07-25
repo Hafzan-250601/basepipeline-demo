@@ -19,7 +19,7 @@ import boto3
 import datetime
 import os
 
-# retrieve account id from STS GetCallerID
+# Retrieve account id from STS GetCallerIdentity
 getAccount = sts.get_caller_identity()
 awsAccount = str(getAccount['Account'])
 
@@ -31,10 +31,6 @@ containerTag = 'latest'  # Assuming you have a tag, you can change it accordingl
 # Create SecurityHub and STS clients with the specified region
 securityhub = boto3.client('securityhub', region_name=awsRegion)
 sts = boto3.client('sts', region_name=awsRegion)
-
-# Retrieve account id from STS GetCallerIdentity
-getAccount = sts.get_caller_identity()
-awsAccount = str(getAccount['Account'])
 
 # Open Trivy vuln report & parse out vuln info
 with open('results.json') as json_file:
