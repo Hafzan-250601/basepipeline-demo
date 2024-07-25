@@ -13,7 +13,6 @@ pipeline {
     }
     stage('Upload Findings to SecurityHub') {
       steps {
-        sh 'apt-get install jq'
         sh 'cat report.asff | jq \'.Findings\''
       }
     }
