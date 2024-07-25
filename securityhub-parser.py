@@ -26,8 +26,8 @@ sts = boto3.client('sts')
 # retrieve account id from STS GetCallerID
 getAccount = sts.get_caller_identity()
 awsAccount = str(getAccount['Account'])
-# retrieve env vars from codebuild
-awsRegion = ap-southeast-1
+# retrieve env vars
+awsRegion = os.environ['AWS_REGION']
 containerName = devopsapps
 
 # open Trivy vuln report & parse out vuln info
@@ -68,9 +68,8 @@ with open('results.json') as json_file:
                     Findings=[
                         {
                             'SchemaVersion': '2018-10-08',
-                            'Id': containerName + ':' + containerTag + '/' + cveId,
+                            'Id': containerName + '/' + cveId,
                             'ProductArn': 'arn:aws:securityhub:' + awsRegion + ':' + ':product/aquasecurity/aquasecurity',
-                            'GeneratorId': codebuildBuildArn,
                             'AwsAccountId': awsAccount,
                             'Types': [ 'Software and Configuration Checks/Vulnerabilities/CVE' ],
                             'CreatedAt': iso8601Time,
