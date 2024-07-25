@@ -8,7 +8,7 @@ pipeline {
     }
     stage('Scan') {
       steps {
-        sh 'trivy devopsapps'
+        sh 'trivy image --no-progress --exit-code 1 --severity HIGH,CRITICAL devopsapps'
       }
     }
   }
