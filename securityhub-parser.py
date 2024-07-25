@@ -19,17 +19,20 @@ import boto3
 import datetime
 import os
 
-# import sechub + sts boto3 client
-securityhub = boto3.client('securityhub')
-sts = boto3.client('sts')
-
-# retrieve account id from STS GetCallerID
-getAccount = sts.get_caller_identity()
-awsAccount = str(getAccount['Account'])
+# Define the region and container name
 awsRegion = 'ap-southeast-1'
 containerName = 'devopssapps'
+containerTag = 'latest'  # Assuming you have a tag, you can change it accordingly
 
-# open Trivy vuln report & parse out vuln info
+# Create SecurityHub and STS clients with the specified region
+securityhub = boto3.client('securityhub', region_name=awsRegion)
+sts = boto3.client('sts', region_name=awsRegion)
+
+# Retrieve account id from STS GetCallerIdentity
+getAccount = sts.get_caller_identity()
+awsAccount = str(getAccount['Account'])
+
+# Open Trivy vuln report & parse out vuln info
 with open('results.json') as json_file:
     data = json.load(json_file)
     if data[0]['Vulnerabilities'] is None:
@@ -45,9 +48,9 @@ with open('results.json') as json_file:
             fixedVersion = str(p['FixedVersion'])
             trivySeverity = str(p['Severity'])
             cveReference = str(p['References'][0])
-            # create ISO 8601 timestamp
+            # Create ISO 8601 timestamp
             iso8601Time = datetime.datetime.utcnow().replace(tzinfo=datetime.timezone.utc).isoformat()
-            # map Trivy severity to ASFF severity
+            # Map Trivy severity to ASFF severity
             if trivySeverity == 'LOW':
                 trivyProductSev = int(1)
                 trivyNormalizedSev = trivyProductSev * 10
@@ -62,22 +65,23 @@ with open('results.json') as json_file:
                 trivyNormalizedSev = trivyProductSev * 10
             else:
                 print('No vulnerability information found')
+                continue  # Skip to the next vulnerability if severity is not found
             try:
                 response = securityhub.batch_import_findings(
                     Findings=[
                         {
                             'SchemaVersion': '2018-10-08',
                             'Id': containerName + '/' + cveId,
-                            'ProductArn': 'arn:aws:securityhub:' + awsRegion + ':' + ':product/aquasecurity/aquasecurity',
+                            'ProductArn': f'arn:aws:securityhub:{awsRegion}:{awsAccount}:product/aquasecurity/aquasecurity',
                             'AwsAccountId': awsAccount,
-                            'Types': [ 'Software and Configuration Checks/Vulnerabilities/CVE' ],
+                            'Types': ['Software and Configuration Checks/Vulnerabilities/CVE'],
                             'CreatedAt': iso8601Time,
                             'UpdatedAt': iso8601Time,
                             'Severity': {
                                 'Product': trivyProductSev,
                                 'Normalized': trivyNormalizedSev
                             },
-                            'Title': 'Trivy found a vulnerability to ' + cveId + ' in container ' + containerName,
+                            'Title': f'Trivy found a vulnerability {cveId} in container {containerName}',
                             'Description': cveDescription,
                             'Remediation': {
                                 'Recommendation': {
@@ -85,20 +89,20 @@ with open('results.json') as json_file:
                                     'Url': cveReference
                                 }
                             },
-                            'ProductFields': { 'Product Name': 'Trivy' },
+                            'ProductFields': {'Product Name': 'Trivy'},
                             'Resources': [
                                 {
                                     'Type': 'Container',
-                                    'Id': containerName + ':' + containerTag,
+                                    'Id': f'{containerName}:{containerTag}',
                                     'Partition': 'aws',
                                     'Region': awsRegion,
                                     'Details': {
-                                        'Container': { 'ImageName': containerName + ':' + containerTag },
+                                        'Container': {'ImageName': f'{containerName}:{containerTag}'},
                                         'Other': {
                                             'CVE ID': cveId,
                                             'CVE Title': cveTitle,
-                                            'Installed Package': packageName + ' ' + installedVersion,
-                                            'Patched Package': packageName + ' ' + fixedVersion
+                                            'Installed Package': f'{packageName} {installedVersion}',
+                                            'Patched Package': f'{packageName} {fixedVersion}'
                                         }
                                     }
                                 },
