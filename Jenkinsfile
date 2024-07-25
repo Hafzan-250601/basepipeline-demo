@@ -3,12 +3,12 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        sh 'docker build -t devopsApps .'
+        sh 'docker build -t devopsapps .'
       }
     }
     stage('Scan') {
       steps {
-        sh 'trivy devopsApps'
+        sh 'trivy devopsapps'
       }
     }
   }
