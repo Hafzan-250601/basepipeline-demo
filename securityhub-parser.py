@@ -28,10 +28,6 @@ containerTag = 'latest'  # Assuming you have a tag, you can change it accordingl
 securityhub = boto3.client('securityhub', region_name=awsRegion)
 sts = boto3.client('sts', region_name=awsRegion)
 
-# Retrieve account id from STS GetCallerIdentity
-getAccount = sts.get_caller_identity()
-awsAccount = str(getAccount['Account'])
-
 # Open Trivy vuln report & parse out vuln info
 try:
     with open('results.json') as json_file:
