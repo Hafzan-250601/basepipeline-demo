@@ -6,7 +6,6 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        sh 'cd /DevopsClassFront'
         sh 'docker build -t devopsApps .'
       }
     }
