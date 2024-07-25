@@ -8,14 +8,14 @@ pipeline {
     }
     stage('Scan') {
       steps {
-        sh 'trivy image -f json -o results.json --no-progress --exit-code 0 --severity HIGH,CRITICAL devopsapps'
-        sh 'cat results.json'
-      }
-    }
-    stage('Pass Finding to SecurityHub') {
-      steps {
-        sh 'pip3 install boto3 --break-system-packages'
-        sh 'python3 securityhub-parser.py'
+        sh '''
+        AWS_REGION=ap-southeast-1 AWS_ACCOUNT_ID=921704920702 \
+        trivy image --format template --template "@contrib/asff.tpl" -o report.asff --exit-code 0 --severity HIGH,CRITICAL devopsapps
+        '''
+        sh 'aws securityhub enable-import-findings-for-product --product-arn arn:aws:securityhub:ap-southeast-1::product/aquasecurity/aquasecurity'
+        sh 'cat report.asff | jq '.Findings'
+        sh 'aws securityhub batch-import-findings --findings report.asff'
+'
       }
     }
   }
