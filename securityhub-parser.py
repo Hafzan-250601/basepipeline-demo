@@ -26,8 +26,8 @@ sts = boto3.client('sts')
 # retrieve account id from STS GetCallerID
 getAccount = sts.get_caller_identity()
 awsAccount = str(getAccount['Account'])
-awsRegion = ap-southeast-1
-containerName = devopssapps
+awsRegion = 'ap-southeast-1'
+containerName = 'devopssapps'
 
 # open Trivy vuln report & parse out vuln info
 with open('results.json') as json_file:
