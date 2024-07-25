@@ -2,6 +2,14 @@ import json
 import boto3
 import datetime
 
+# import sechub + sts boto3 client
+securityhub = boto3.client('securityhub')
+sts = boto3.client('sts')
+
+# retrieve account id from STS GetCallerID
+getAccount = sts.get_caller_identity()
+awsAccount = str(getAccount['Account'])
+
 # Function to read Trivy findings from a JSON file
 def read_trivy_findings(file_path):
     with open(file_path, 'r') as file:
