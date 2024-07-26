@@ -13,7 +13,7 @@ pipeline {
       steps {
         sh '''
         cd trivy
-        trivy image --format template --template "@contrib/asff.tpl" -o report.asff --no-progress --severity HIGH,CRITICAL devopsapps
+        AWS_REGION=us-apsoutheast-1 AWS_ACCOUNT_ID=921704920702 trivy image --format template --template "@contrib/asff.tpl" -o report.asff --no-progress --severity HIGH,CRITICAL devopsapps
         cat report.asff | jq \'.Findings\'
         aws securityhub batch-import-findings --findings report.asff
         '''
