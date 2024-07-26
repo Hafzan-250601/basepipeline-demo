@@ -3,7 +3,10 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        sh 'docker build -t devopsapps .'
+        sh '''
+        cd DevopsClassFront
+        docker build -t devopsapps .
+        '''
       }
     }
     stage('Scan') {
