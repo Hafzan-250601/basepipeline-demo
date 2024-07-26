@@ -11,6 +11,7 @@ pipeline {
         sh '''
         git clone https://github.com/aquasecurity/trivy.git
         pwd
+        ls
         trivy image --format template --template asff.tpl -o report.asff --severity HIGH,CRITICAL,MEDIUM devopsapps
         '''
       }
