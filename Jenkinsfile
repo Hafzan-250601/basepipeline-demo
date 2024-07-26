@@ -14,8 +14,6 @@ pipeline {
         sh '''
         cd trivy
         trivy image --format template --template "@contrib/asff.tpl" -o report.asff --severity HIGH,CRITICAL devopsapps
-        ls
-        cat report.asff
         '''
       }
     }
@@ -23,7 +21,7 @@ pipeline {
       steps {
         sh '''
         cat report.asff | jq \'.Findings\'
-        aws securityhub batch-import-findings --findings report.asff
+        aws securityhub batch-import-findings --findings=report.asff
         '''
         }
       }
