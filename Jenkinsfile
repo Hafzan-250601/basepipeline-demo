@@ -9,9 +9,8 @@ pipeline {
     stage('Scan') {
       steps {
         sh '''
-        pwd
-        ls
-        trivy image --format template --template trivy/contrib/asff.tpl -o report.asff --severity HIGH,CRITICAL,MEDIUM devopsapps
+        cd trivy
+        trivy image --format template --template "@contrib/asff.tpl" -o report.asff --severity HIGH,CRITICAL,MEDIUM devopsapps
         '''
       }
     }
