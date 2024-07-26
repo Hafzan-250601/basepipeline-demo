@@ -15,7 +15,7 @@ pipeline {
         cd trivy
         AWS_REGION=ap-southeast-1 AWS_ACCOUNT_ID=921704920702 trivy image --format template --template "@contrib/asff.tpl" -o report.asff --no-progress --severity HIGH,CRITICAL devopsapps
         cat report.asff | jq \'.Findings\'
-        aws securityhub batch-import-findings --findings "file://report.asff"
+        aws securityhub batch-import-findings --findings file://report.asff
         '''
       }
     }
