@@ -11,7 +11,7 @@ pipeline {
         sh '''
         pwd
         ls
-        trivy image --format template --template asff.tpl -o report.asff --severity HIGH,CRITICAL,MEDIUM devopsapps
+        trivy image --format template --template trivy/contrib/asff.tpl -o report.asff --severity HIGH,CRITICAL,MEDIUM devopsapps
         '''
       }
     }
