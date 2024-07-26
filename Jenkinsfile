@@ -8,7 +8,11 @@ pipeline {
     }
     stage('Scan') {
       steps {
-        sh 'trivy image --format template --template asff.tpl -o report.asff --severity HIGH,CRITICAL,MEDIUM devopsapps'
+        sh '''
+        git clone https://github.com/aquasecurity/trivy.git
+        pwd
+        trivy image --format template --template asff.tpl -o report.asff --severity HIGH,CRITICAL,MEDIUM devopsapps
+        '''
       }
     }
     stage('Upload Findings to SecurityHub') {
