@@ -21,8 +21,7 @@ pipeline {
       steps {
         sh '''
         cat report.asff | jq \'.Findings\'
-        findings=$(cat report.asff)
-        aws securityhub batch-import-findings --findings $findings
+        aws securityhub batch-import-findings --findings report.asff
         '''
         }
       }
