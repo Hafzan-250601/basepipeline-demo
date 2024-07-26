@@ -17,7 +17,10 @@ pipeline {
     stage('Upload Findings to SecurityHub') {
       steps {
         sh 'cat report.asff | jq \'.Findings\''
-        sh 'aws securityhub batch-import-findings --findings report.asff'
+        script {
+          def findings = sh(script: 'cat report.asff', returnStdout: true).trim()
+          sh "aws securityhub batch-import-findings --findings '${findings}'"
+        }
       }
     }
   }
