@@ -18,13 +18,11 @@ pipeline {
     }
 stage('Scan image using Snyk') {
       steps {
-        sh '''
-        cd DevopsClassFront
+        sh 'cd DevopsClassFront'
         snykSecurity(
-          snykInstallation: \'SnykImageScanning\',
-          snykTokenId: \'organization-snyk-api-token\'
+          snykInstallation: 'SnykImageScanning',
+          snykTokenId: 'organization-snyk-api-token'
         )
-        '''
       }
     }
   }
