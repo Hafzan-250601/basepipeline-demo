@@ -9,14 +9,6 @@ pipeline {
         '''
       }
     }
-    stage('Build Backend') {
-      steps {
-        sh '''
-        cd DevopsClass
-        docker build -t devopsapps-backend .
-        '''
-      }
-    }
     stage('Scan image and upload findings to SecurityHub') {
       steps {
         sh '''
