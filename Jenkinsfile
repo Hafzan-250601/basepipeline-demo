@@ -20,7 +20,6 @@ stage('Scan image using Snyk') {
       steps {
         sh '''
         cd DevopsClassFront
-        echo \'Testing...\'
         snykSecurity(
           snykInstallation: \'SnykImageScanning\',
           snykTokenId: \'organization-snyk-api-token\'
