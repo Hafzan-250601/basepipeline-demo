@@ -21,7 +21,6 @@ pipeline {
         snykSecurity(
           snykInstallation: 'SnykImageScanning',
           snykTokenId: 'organization-snyk-api-token',
-          additionalArguments: 'container monitor devopsapps-frontend'
         )
       }
     }
