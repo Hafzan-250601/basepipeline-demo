@@ -21,6 +21,7 @@ pipeline {
         snykSecurity(
           snykInstallation: 'SnykImageScanning',
           snykTokenId: 'organization-snyk-api-token',
+          additionalArguments: '--file:Dockerfile'
         )
       }
     }
