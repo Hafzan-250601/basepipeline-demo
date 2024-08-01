@@ -9,20 +9,11 @@ pipeline {
         '''
       }
     }
-    stage('Scan image and upload findings to SecurityHub') {
+    stage('Scan image using Trivy') {
       steps {
         sh '''
         trivy image --no-progress --severity HIGH,CRITICAL devopsapps-frontend
         '''
-      }
-    }
-stage('Scan image using Snyk') {
-      steps {
-        sh 'cd DevopsClassFront'
-        snykSecurity(
-          snykInstallation: 'SnykImageScanning',
-          snykTokenId: 'organization-snyk-api-token'
-        )
       }
     }
   }
