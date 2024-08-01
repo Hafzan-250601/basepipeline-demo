@@ -19,11 +19,10 @@ pipeline {
     stage('Scan image using Snyk Container') {
       steps {
         snykSecurity(
-          snykTokenId: 'organization-snyk-api-token'
+          snykInstallation: 'SnykImageScanning',
+          snykTokenId: 'organization-snyk-api-token',
+          additionalArguments: 'container monitor devopsapps-frontend'
         )
-        sh '''
-        snyk-linux container monitor devopsapps-frontend --org=27b08c82-2fb9-4856-9b83-d2fcc25dcd66 --file=Dockerfile
-        '''
       }
     }
   }
