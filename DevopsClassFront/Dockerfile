@@ -12,7 +12,7 @@ RUN apt-get update && \
 COPY ./dist /var/www/html
 
 # Add in the Contrast agent
-RUN npm install --production @contrast/agent
+RUN npm install --omit=dev @contrast/agent
 
 # Expose port 80 to the outside world
 EXPOSE 80
