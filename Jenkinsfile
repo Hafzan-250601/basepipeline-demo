@@ -9,6 +9,11 @@ pipeline {
         '''
       }
     }
+    stage('Download Latest Contrast Agent') {
+      steps {
+        contrastAgent profile: 'Contrast-Integration', outputDirectory: env.WORKSPACE, agentType: 'Node'
+      }
+    }
     stage('Scan image using Trivy') {
       steps {
         sh '''
@@ -16,10 +21,5 @@ pipeline {
         '''
       }
     }
-    node{
-  stage('Download Latest Contrast Agent'){
-    contrastAgent profile:'MyConnection', outputDirectory: env.WORKSPACE, agentType: 'Java'
   }
-}
-}
 }
