@@ -13,6 +13,7 @@ pipeline {
       steps {
         sh '''
         trivy image --no-progress --severity HIGH,CRITICAL devopsapps-frontend
+        pwd
         '''
       }
     }
