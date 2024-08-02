@@ -6,6 +6,7 @@ pipeline {
         sh '''
         cd DevopsClassFront
         docker build -t devopsapps-frontend .
+        which snyk
         '''
       }
     }
