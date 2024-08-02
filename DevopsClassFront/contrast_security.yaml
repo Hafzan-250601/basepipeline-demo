@@ -1,0 +1,8 @@
+api: 
+  url: https://cs004.contrastsecurity.com/Contrast/
+agent: 
+  service: 
+    grpc: true
+  logger: 
+    path: /proc/1/fd/1
+    level: INFO
