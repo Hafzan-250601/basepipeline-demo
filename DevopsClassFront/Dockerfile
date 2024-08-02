@@ -7,12 +7,18 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
+# Set the working directory
+WORKDIR /app
+
+# Copy package.json and package-lock.json
+COPY package*.json ./
+
+# Clear npm cache and install Node.js dependencies
+RUN npm cache clean --force && npm install --omit=dev @contrast/agent
+
 # Copy your application files to the container
 # Assuming your application files are in the 'app' directory
 COPY ./dist /var/www/html
-
-# Add in the Contrast agent
-RUN npm install --omit=dev @contrast/agent
 
 # Expose port 80 to the outside world
 EXPOSE 80
