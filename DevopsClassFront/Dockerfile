@@ -10,6 +10,8 @@ RUN apt-get update && \
 # Set the working directory
 WORKDIR /app
 
+COPY contrast_security.yaml /app/contrast_security.yaml
+
 # Copy package.json and package-lock.json
 COPY package*.json ./
 
