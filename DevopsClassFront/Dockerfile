@@ -26,5 +26,6 @@ COPY ./dist /var/www/html
 EXPOSE 80
 
 # Start Apache in the foreground and startup command to preload Contrast agent
-CMD ["apachectl", "-D", "FOREGROUND", "node", "-r", "@contrast/agent", "build/app"]
+CMD ["apachectl", "-D", "FOREGROUND"]
+CMD ["node", "-r", "@contrast/agent", "build/app"]
 
