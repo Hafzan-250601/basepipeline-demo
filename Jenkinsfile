@@ -16,10 +16,10 @@ pipeline {
         '''
       }
     }
-    stage('Scan image using Snyk Container') {
-      steps {
-        sh 'snyk-linux container monitor devopsapps-frontend --org=27b08c82-2fb9-4856-9b83-d2fcc25dcd66'
-      }
-    }
+    node{
+  stage('Download Latest Contrast Agent'){
+    contrastAgent profile:'MyConnection', outputDirectory: env.WORKSPACE, agentType: 'Java'
   }
+}
+}
 }
